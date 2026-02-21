@@ -4,172 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tuition Savings</title>
-  <style>
-    :root{
-      --bg:#0b0f17;
-      --card:#111827;
-      --muted:#9ca3af;
-      --text:#e5e7eb;
-      --border:#243041;
-      --chip:#1f2937;
-      --focus:#3b82f6;
-      --good:#22c55e;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background:linear-gradient(180deg, #0b0f17, #070a10);
-      color:var(--text);
-      padding:16px;
-    }
-    .wrap{max-width:860px;margin:0 auto;}
-    .topnav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
-    a.back{
-      text-decoration:none;color:var(--text);
-      border:1px solid var(--border);
-      background:#0b1220;
-      padding:10px 12px;border-radius:12px;
-      font-size:13px;
-    }
-    a.back:hover{border-color:rgba(59,130,246,0.55); box-shadow:0 0 0 3px rgba(59,130,246,0.12);}
-    .card{
-      background:rgba(17,24,39,0.86);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      backdrop-filter: blur(6px);
-    }
-    h1{font-size:18px;margin:0 0 6px 0;}
-    .sub{font-size:13px;color:var(--muted);margin:0 0 14px 0;line-height:1.35;}
-
-    .scenarioRow{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 12px 0;}
-    .scenarioBtn{
-      flex:1 1 220px;
-      text-align:left;
-      border:1px solid var(--border);
-      background:#0b1220;
-      color:var(--text);
-      border-radius:14px;
-      padding:12px 12px;
-      cursor:pointer;
-    }
-    .scenarioBtn .t{font-size:14px;margin:0 0 3px 0;}
-    .scenarioBtn .d{font-size:12px;color:var(--muted);line-height:1.25;margin:0;}
-    .scenarioBtn.active{
-      border-color:rgba(34,197,94,0.6);
-      box-shadow:0 0 0 3px rgba(34,197,94,0.12);
-      background:rgba(34,197,94,0.06);
-    }
-
-    .result{
-      margin-top:10px;
-      padding:14px 14px;
-      border-radius:16px;
-      border:1px solid rgba(34,197,94,0.35);
-      background:rgba(34,197,94,0.08);
-    }
-    .resultGrid{display:flex;gap:12px;flex-wrap:wrap;}
-    .metric{
-      flex:1 1 220px;
-      border:1px solid var(--border);
-      background:#0b1220;
-      border-radius:14px;
-      padding:12px 12px;
-    }
-    .metric .k{font-size:12px;color:var(--muted);margin:0 0 6px 0;}
-    .metric .v{font-size:22px;font-weight:700;margin:0;}
-    .metric.good{
-      border-color:rgba(34,197,94,0.45);
-      background:rgba(34,197,94,0.06);
-    }
-    .whatIncludes{
-      margin-top:10px;
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.35;
-    }
-
-    .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;}
-    .col{flex:1 1 280px;}
-
-    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px 0;}
-    select{
-      width:100%;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:#0b1220;
-      color:var(--text);
-      font-size:16px;
-      outline:none;
-    }
-    select:focus{
-      border-color:var(--focus);
-      box-shadow:0 0 0 3px rgba(59,130,246,0.15);
-    }
-
-    .toggle{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#0b1220;margin-top:8px;
-    }
-    .toggle .meta{display:flex;flex-direction:column;}
-    .toggle .meta span:first-child{font-size:14px;}
-    .toggle .meta span:last-child{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.25;}
-    .switch{position:relative;width:46px;height:26px;flex:0 0 auto;}
-    .switch input{display:none;}
-    .slider{
-      position:absolute;inset:0;background:#334155;border-radius:999px;transition:0.18s;border:1px solid var(--border);
-    }
-    .slider:before{
-      content:"";position:absolute;width:20px;height:20px;left:3px;top:2px;background:#e5e7eb;border-radius:50%;transition:0.18s;
-    }
-    .switch input:checked + .slider{
-      background:rgba(34,197,94,0.8);border-color:rgba(34,197,94,0.6);
-    }
-    .switch input:checked + .slider:before{transform:translateX(20px);}
-
-    details{
-      border:1px solid var(--border);
-      background:#0b1220;
-      border-radius:14px;
-      padding:10px 12px;
-      margin-top:12px;
-    }
-    summary{
-      cursor:pointer;
-      list-style:none;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      font-size:14px;
-      outline:none;
-    }
-    summary::-webkit-details-marker{display:none;}
-    .caret{
-      width:10px;height:10px;flex:0 0 auto;
-      border-right:2px solid var(--muted);
-      border-bottom:2px solid var(--muted);
-      transform:rotate(-45deg);
-      transition:0.18s;
-      margin-left:8px;
-    }
-    details[open] .caret{transform:rotate(45deg);}
-    .body{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.45;}
-
-    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
-    .btn{
-      border:1px solid var(--border);background:#0b1220;color:var(--text);
-      padding:12px 12px;border-radius:12px;font-size:14px;cursor:pointer;flex:1 1 160px;
-    }
-    .btn.primary{border-color:rgba(34,197,94,0.5);background:rgba(34,197,94,0.15);}
-    .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
-    .pill{
-      font-size:12px;border:1px solid var(--border);background:#0b1220;padding:8px 10px;border-radius:999px;color:var(--muted);
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="wrap">
@@ -178,7 +13,7 @@
     </div>
 
     <div class="card">
-      <h1>Tuition Savings</h1>
+      <h2>Tuition Savings</h2>
       <p class="sub">Compare in-district vs out-of-district ACC costs, with comparisons to other universities. All amounts are rounded to the nearest $1.</p>
 
       <div class="scenarioRow" role="group" aria-label="Scenario picker">
@@ -278,7 +113,7 @@
                 </div>
               </div>
 
-              <div class="whatIncludes" id="compareIncludes">
+              <div class="whatIncludes">
                 Comparison uses published annual tuition+fee baselines. It does not include housing, meal plans, transportation, or program-specific fees.
               </div>
             </div>
@@ -291,36 +126,30 @@
         </div>
 
         <div class="col">
-          <details>
-            <summary>
-              <span>Assumptions and formulas</span>
-              <span class="caret" aria-hidden="true"></span>
-            </summary>
-            <div class="body">
-              <div><strong>ACC cost (all-in)</strong> = credits × baseline_cost_per_credit.</div>
-              <div style="margin-top:8px;"><strong>ACC baselines used</strong>: $82/credit (in-district), $283/credit (out-of-district). (Includes tuition + standard fees.)</div>
-              <div style="margin-top:8px;"><strong>UT Austin annual baseline</strong> = 2 × $5,429 for a resident Liberal Arts student at 12+ hours/term.</div>
-              <div style="margin-top:8px;"><strong>Texas State annual baseline</strong> = $12,220 (15 hrs/semester basis).</div>
-              <div style="margin-top:8px;"><strong>UTSA annual baseline</strong> = $11,448 (15 hrs/term basis).</div>
-              <div style="margin-top:8px;"><strong>Texas A&amp;M annual baseline</strong> = 2 × $6,237.35.</div>
-              <div style="margin-top:8px;">
-                <strong>2+2 pathway (simplified)</strong> = (ACC 60 credits) + (4-year school baseline × 2 years). Full 4-year comparison = (4-year school baseline × 4 years).
+          <div class="accordion" aria-label="Assumptions">
+            <details class="faq">
+              <summary><span>Assumptions and formulas</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">
+                <div><strong>ACC cost (all-in)</strong> = credits × baseline_cost_per_credit.</div>
+                <div style="margin-top:10px;"><strong>ACC baselines used</strong>: $82/credit (in-district), $283/credit (out-of-district). (Includes tuition + standard fees.)</div>
+                <div style="margin-top:10px;"><strong>UT Austin annual baseline</strong> = 2 × $5,429 for a resident Liberal Arts student at 12+ hours/term.</div>
+                <div style="margin-top:10px;"><strong>Texas State annual baseline</strong> = $12,220 (15 hrs/semester basis).</div>
+                <div style="margin-top:10px;"><strong>UTSA annual baseline</strong> = $11,448 (15 hrs/term basis).</div>
+                <div style="margin-top:10px;"><strong>Texas A&amp;M annual baseline</strong> = 2 × $6,237.35.</div>
+                <div style="margin-top:10px;"><strong>2+2 pathway (simplified)</strong> = (ACC 60 credits) + (4-year school baseline × 2 years).</div>
               </div>
-            </div>
-          </details>
+            </details>
 
-          <details>
-            <summary>
-              <span>Scenario notes</span>
-              <span class="caret" aria-hidden="true"></span>
-            </summary>
-            <div class="body">
-              <div><strong>Take a few classes</strong>: Shows ACC in vs out only (comparison is optional but less apples-to-apples).</div>
-              <div style="margin-top:8px;"><strong>Associate degree</strong>: Treats 60 credits as the ACC program cost.</div>
-              <div style="margin-top:8px;"><strong>2+2 pathway</strong>: Treats the first 60 credits at ACC, then 2 years at the selected 4-year school baseline.</div>
-              <div style="margin-top:8px;"><strong>Bachelor’s at ACC</strong>: Treats 120 credits as a full 4-year ACC program cost.</div>
-            </div>
-          </details>
+            <details class="faq">
+              <summary><span>Scenario notes</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">
+                <div><strong>Take a few classes</strong>: Shows ACC in vs out only (comparison is optional but less apples-to-apples).</div>
+                <div style="margin-top:10px;"><strong>Associate degree</strong>: Treats 60 credits as the ACC program cost.</div>
+                <div style="margin-top:10px;"><strong>2+2 pathway</strong>: Treats the first 60 credits at ACC, then 2 years at the selected 4-year school baseline.</div>
+                <div style="margin-top:10px;"><strong>Bachelor’s at ACC</strong>: Treats 120 credits as a full 4-year ACC program cost.</div>
+              </div>
+            </details>
+          </div>
         </div>
       </div>
 
