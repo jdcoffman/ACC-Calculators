@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ACC In-District Tax & Savings Calculator</title>
+  <title>Property Tax Impact</title>
   <style>
     :root{
       --bg:#0b0f17;
@@ -24,9 +24,7 @@
       padding:16px;
     }
     .wrap{max-width:860px;margin:0 auto;}
-    .topnav{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;
-    }
+    .topnav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
     a.back{
       text-decoration:none;color:var(--text);
       border:1px solid var(--border);
@@ -152,11 +150,8 @@
     </div>
 
     <div class="card">
-      <h1>ACC In-District Tax & Savings Calculator</h1>
-      <p class="sub">
-        Enter your home value (or pick a preset), select exemptions, and view your estimated annual ACC property tax.
-        All amounts are rounded to the nearest $1.
-      </p>
+      <h1>Property Tax Impact</h1>
+      <p class="sub">Estimate annual ACC tax, including exemptions. All amounts are rounded to the nearest $1.</p>
 
       <div class="row">
         <div class="col">
@@ -271,10 +266,9 @@
   </div>
 
   <script>
-    // Inputs provided by you
-    const ACC_RATE_PER_100 = 0.1034;     // per $100 taxable value
-    const HOMESTEAD_MIN = 5000;          // $5,000
-    const HOMESTEAD_PCT = 0.01;          // 1%
+    const ACC_RATE_PER_100 = 0.1034;
+    const HOMESTEAD_MIN = 5000;
+    const HOMESTEAD_PCT = 0.01;
     const ADDL_EXEMPT_65_DISABLED = 75000;
 
     const VALUE_PRESETS = [250000, 350000, 450000, 550000, 650000, 800000];
@@ -286,7 +280,6 @@
       if (!isFinite(v)) return "$0";
       return v.toLocaleString(undefined, { style:"currency", currency:"USD", maximumFractionDigits:0 });
     }
-
     function round1(n){ return Math.round(Number(n) || 0); }
 
     function buildChips(){
@@ -322,15 +315,10 @@
       const has65 = $("has65").checked;
       const hasDisabled = $("hasDisabled").checked;
 
-      // Homestead: max($5,000, 1% of value)
       const homesteadEx = hasHomestead ? Math.max(HOMESTEAD_MIN, homeValue * HOMESTEAD_PCT) : 0;
-
-      // 65+/Disabled: applied once if either is true (even if both selected)
       const addlEx = (has65 || hasDisabled) ? ADDL_EXEMPT_65_DISABLED : 0;
 
       const taxable = Math.max(0, homeValue - homesteadEx - addlEx);
-
-      // Tax = (taxable / 100) * rate
       const tax = (taxable / 100) * ACC_RATE_PER_100;
 
       $("taxableOut").textContent = formatMoney0(round1(taxable));

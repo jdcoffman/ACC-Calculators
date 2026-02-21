@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ACC Tuition Savings Calculator</title>
+  <title>Tuition Savings</title>
   <style>
     :root{
       --bg:#0b0f17;
@@ -24,9 +24,7 @@
       padding:16px;
     }
     .wrap{max-width:860px;margin:0 auto;}
-    .topnav{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;
-    }
+    .topnav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
     a.back{
       text-decoration:none;color:var(--text);
       border:1px solid var(--border);
@@ -43,7 +41,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.35);
       backdrop-filter: blur(6px);
     }
-    h1{font-size:18px;margin:0 0 6px 0;letter-spacing:0.2px;}
+    h1{font-size:18px;margin:0 0 6px 0;}
     .sub{font-size:13px;color:var(--muted);margin:0 0 14px 0;line-height:1.35;}
 
     .scenarioRow{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 12px 0;}
@@ -167,7 +165,6 @@
       padding:12px 12px;border-radius:12px;font-size:14px;cursor:pointer;flex:1 1 160px;
     }
     .btn.primary{border-color:rgba(34,197,94,0.5);background:rgba(34,197,94,0.15);}
-
     .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
     .pill{
       font-size:12px;border:1px solid var(--border);background:#0b1220;padding:8px 10px;border-radius:999px;color:var(--muted);
@@ -181,10 +178,8 @@
     </div>
 
     <div class="card">
-      <h1>ACC Tuition Savings Calculator</h1>
-      <p class="sub">
-        Pick a scenario first. Results update immediately. All dollar amounts are rounded to the nearest $1.
-      </p>
+      <h1>Tuition Savings</h1>
+      <p class="sub">Compare in-district vs out-of-district ACC costs, with comparisons to other universities. All amounts are rounded to the nearest $1.</p>
 
       <div class="scenarioRow" role="group" aria-label="Scenario picker">
         <button class="scenarioBtn active" type="button" id="scFew">
@@ -358,7 +353,6 @@
       return v.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
     }
     function round1(n){ return Math.round(Number(n) || 0); }
-
     function setActive(el, isActive) { el.classList.toggle("active", !!isActive); }
 
     let currentScenarioKey = "few";
@@ -378,7 +372,6 @@
         $("compareMode").disabled = false;
         $("compareModeLabel").textContent = "Comparison mode";
       }
-
       computeAll();
     }
 
@@ -439,7 +432,7 @@
         $("schoolFullLabel").textContent = `${school.name} remaining cost (2 years baseline)`;
       }
 
-      const savingsBase = schoolFull; // stable and intuitive across scenarios
+      const savingsBase = schoolFull;
       const saveIn = savingsBase - pathwayIn;
       const saveOut = savingsBase - pathwayOut;
 
@@ -448,14 +441,6 @@
       $("pathOutOut").textContent = formatMoney(round1(pathwayOut));
       $("saveInOut").textContent = formatMoney(round1(saveIn));
       $("saveOutOut").textContent = formatMoney(round1(saveOut));
-
-      if (currentScenarioKey === "twoTwo") {
-        $("compareIncludes").textContent =
-          "Comparison uses published annual tuition+fee baselines. Pathway uses ACC 60 credits + 2 years at the selected 4-year school baseline. Does not include housing, meal plans, transportation, or program-specific fees.";
-      } else {
-        $("compareIncludes").textContent =
-          "Comparison uses published annual tuition+fee baselines. Does not include housing, meal plans, transportation, or program-specific fees.";
-      }
     }
 
     function computeAll(){
@@ -479,7 +464,7 @@
       const savings = accOut - accIn;
 
       const lines = [
-        "ACC Savings Estimate (rounded to nearest $1)",
+        "ACC Tuition Savings Estimate",
         `Scenario: ${s.label}`,
         `Credits at ACC (preset): ${s.creditsAcc}`,
         `ACC cost (in-district): ${formatMoney(round1(accIn))}`,
@@ -499,18 +484,10 @@
 
         lines.push(`Comparison school: ${school.name}`);
         lines.push(`Full baseline (program years): ${formatMoney(round1(schoolFull))}`);
-
-        if (currentScenarioKey === "twoTwo") {
-          lines.push(`2+2 pathway (in): ${formatMoney(round1(pathwayIn))}`);
-          lines.push(`2+2 pathway (out): ${formatMoney(round1(pathwayOut))}`);
-          lines.push(`Estimated savings vs full baseline (in): ${formatMoney(round1(schoolFull - pathwayIn))}`);
-          lines.push(`Estimated savings vs full baseline (out): ${formatMoney(round1(schoolFull - pathwayOut))}`);
-        } else {
-          lines.push(`Pathway total (in): ${formatMoney(round1(pathwayIn))}`);
-          lines.push(`Pathway total (out): ${formatMoney(round1(pathwayOut))}`);
-          lines.push(`Estimated savings vs full baseline (in): ${formatMoney(round1(schoolFull - pathwayIn))}`);
-          lines.push(`Estimated savings vs full baseline (out): ${formatMoney(round1(schoolFull - pathwayOut))}`);
-        }
+        lines.push(`Pathway total (in): ${formatMoney(round1(pathwayIn))}`);
+        lines.push(`Pathway total (out): ${formatMoney(round1(pathwayOut))}`);
+        lines.push(`Estimated savings vs full baseline (in): ${formatMoney(round1(schoolFull - pathwayIn))}`);
+        lines.push(`Estimated savings vs full baseline (out): ${formatMoney(round1(schoolFull - pathwayOut))}`);
       }
 
       return lines.join("\n");
