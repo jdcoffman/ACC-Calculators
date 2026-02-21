@@ -1,0 +1,378 @@
+:root{
+  /* Civic Daylight base */
+  --bg: #FFFFFF;
+  --surface: #F1F5F9;
+  --text: #0B1220;
+  --muted: #475569;
+  --border: #CBD5E1;
+
+  /* Brand accents */
+  --primary: #471C75;   /* ACC-ish purple */
+  --secondary: #0F766E; /* teal-green */
+  --accent: #2A5B96;    /* Pflugerville-ish blue */
+  --cta: #F59E0B;       /* amber for primary CTA */
+
+  /* States */
+  --good: #16A34A;
+  --focus: #2563EB;
+
+  --shadow: 0 10px 28px rgba(2,6,23,0.10);
+  --radius: 16px;
+
+  /* Type scale (bigger for outdoor readability) */
+  --h1: 26px;
+  --h2: 20px;
+  --body: 16px;
+  --small: 14px;
+}
+
+*{ box-sizing: border-box; }
+html, body { height: 100%; }
+body{
+  margin:0;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 16px;
+}
+
+.wrap{ max-width: 880px; margin: 0 auto; }
+
+.card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.topnav{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+a.back{
+  text-decoration:none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: var(--small);
+  font-weight: 600;
+}
+a.back:hover{
+  border-color: rgba(37,99,235,0.45);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+}
+
+h1{ font-size: var(--h1); margin:0 0 8px 0; letter-spacing: 0.1px; }
+h2{ font-size: var(--h2); margin:0 0 8px 0; }
+p{ margin:0; }
+
+.sub{
+  font-size: var(--body);
+  color: var(--muted);
+  line-height: 1.4;
+  margin: 0 0 14px 0;
+}
+
+.grid{
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+a.btnCard, button.btnCard{
+  flex: 1 1 280px;
+  text-decoration:none;
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  color: var(--text);
+  border-radius: 16px;
+  padding: 16px;
+  display:block;
+  cursor: pointer;
+}
+
+a.btnCard:hover, button.btnCard:hover{
+  border-color: rgba(71,28,117,0.45);
+  box-shadow: 0 0 0 3px rgba(71,28,117,0.10);
+}
+
+.btnTitle{ font-size: 18px; font-weight: 800; margin:0 0 6px 0; }
+.btnDesc{ font-size: var(--body); color: var(--muted); line-height:1.35; }
+
+.fine{
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: var(--small);
+  line-height: 1.45;
+}
+
+/* Form layout */
+.row{ display:flex; gap: 14px; flex-wrap: wrap; }
+.col{ flex: 1 1 320px; }
+
+label{
+  display:block;
+  font-size: var(--small);
+  color: var(--muted);
+  margin: 12px 0 8px 0;
+  font-weight: 700;
+}
+
+input[type="number"], select{
+  width:100%;
+  padding: 14px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  color: var(--text);
+  font-size: 18px;
+  outline: none;
+}
+input[type="number"]:focus, select:focus{
+  border-color: var(--focus);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+}
+
+.chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 8px; }
+button.chip{
+  appearance:none;
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  color: var(--text);
+  padding: 12px 14px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor:pointer;
+}
+button.chip.selected{
+  border-color: rgba(71,28,117,0.55);
+  box-shadow: 0 0 0 3px rgba(71,28,117,0.10);
+}
+button.chip:active{ transform: translateY(1px); }
+
+.toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #FFFFFF;
+  margin-top: 10px;
+}
+.toggle .meta{
+  display:flex;
+  flex-direction:column;
+}
+.toggle .meta span:first-child{
+  font-size: 16px;
+  font-weight: 800;
+}
+.toggle .meta span:last-child{
+  font-size: var(--small);
+  color: var(--muted);
+  margin-top: 2px;
+  line-height:1.25;
+}
+
+.switch{ position:relative; width:52px; height:30px; flex:0 0 auto; }
+.switch input{ display:none; }
+.slider{
+  position:absolute;
+  inset:0;
+  background:#E2E8F0;
+  border-radius:999px;
+  transition:0.18s;
+  border:1px solid var(--border);
+}
+.slider:before{
+  content:"";
+  position:absolute;
+  width:22px;
+  height:22px;
+  left:4px;
+  top:3px;
+  background:#FFFFFF;
+  border-radius:50%;
+  transition:0.18s;
+  box-shadow: 0 2px 8px rgba(2,6,23,0.12);
+}
+.switch input:checked + .slider{
+  background: rgba(71,28,117,0.22);
+  border-color: rgba(71,28,117,0.45);
+}
+.switch input:checked + .slider:before{ transform: translateX(22px); }
+
+/* Results */
+.result{
+  margin-top: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(15,118,110,0.30);
+  background: rgba(15,118,110,0.08);
+}
+.resultGrid{ display:flex; gap: 12px; flex-wrap: wrap; }
+
+.metric{
+  flex: 1 1 220px;
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 14px;
+}
+.metric .k{
+  font-size: var(--small);
+  color: var(--muted);
+  margin:0 0 8px 0;
+  font-weight: 800;
+}
+.metric .v{
+  font-size: 26px;
+  font-weight: 900;
+  margin:0;
+  letter-spacing: 0.1px;
+}
+.metric.good{
+  border-color: rgba(22,163,74,0.35);
+  background: rgba(22,163,74,0.06);
+}
+
+.whatIncludes{
+  margin-top: 10px;
+  font-size: var(--small);
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* Segmented control */
+.segment{
+  display:flex;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow:hidden;
+  background:#FFFFFF;
+}
+.segment button{
+  flex:1 1 auto;
+  border:0;
+  background: transparent;
+  padding: 12px 12px;
+  font-size: 15px;
+  font-weight: 900;
+  cursor:pointer;
+  color: var(--muted);
+}
+.segment button.active{
+  background: rgba(42,91,150,0.10);
+  color: var(--text);
+}
+.segment button:focus{ outline:none; }
+
+/* Accordion */
+.accordion{
+  margin-top: 12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+details.faq{
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+details.faq summary{
+  cursor:pointer;
+  list-style:none;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 900;
+}
+details.faq summary::-webkit-details-marker{ display:none; }
+.faqBody{
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: var(--body);
+  line-height:1.45;
+}
+.caret{
+  width:10px;height:10px;flex:0 0 auto;
+  border-right:2px solid var(--muted);
+  border-bottom:2px solid var(--muted);
+  transform:rotate(-45deg);
+  transition:0.18s;
+  margin-top: 6px;
+}
+details[open] .caret{ transform: rotate(45deg); }
+
+/* Scenario cards */
+.scenarioRow{ display:flex; gap:12px; flex-wrap:wrap; margin: 10px 0 12px 0; }
+button.scenarioBtn{
+  flex: 1 1 240px;
+  text-align:left;
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  color: var(--text);
+  border-radius: 16px;
+  padding: 14px;
+  cursor:pointer;
+}
+button.scenarioBtn .t{ font-size: 16px; font-weight: 900; margin:0 0 4px 0; }
+button.scenarioBtn .d{ font-size: var(--body); color: var(--muted); line-height:1.25; margin:0; }
+button.scenarioBtn.active{
+  border-color: rgba(71,28,117,0.55);
+  box-shadow: 0 0 0 3px rgba(71,28,117,0.10);
+  background: rgba(71,28,117,0.05);
+}
+
+/* Utility */
+.actions{ display:flex; gap:12px; margin-top: 12px; flex-wrap:wrap; }
+button.btn{
+  border: 1px solid var(--border);
+  background:#FFFFFF;
+  color: var(--text);
+  padding: 14px 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 900;
+  cursor:pointer;
+  flex: 1 1 180px;
+}
+button.btn.primary{
+  border-color: rgba(245,158,11,0.6);
+  background: rgba(245,158,11,0.20);
+}
+button.btn:hover{
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+}
+.pillrow{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
+.pill{
+  font-size: var(--small);
+  border: 1px solid var(--border);
+  background:#FFFFFF;
+  padding: 10px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* Small screens */
+@media (max-width: 420px){
+  body{ padding: 12px; }
+  .card{ padding: 16px; }
+  h1{ font-size: 24px; }
+  .metric .v{ font-size: 24px; }
+}

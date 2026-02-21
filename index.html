@@ -4,53 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ACC in Pflugerville: Costs & Savings</title>
-  <style>
-    :root{
-      --bg:#0b0f17;
-      --card:#111827;
-      --muted:#9ca3af;
-      --text:#e5e7eb;
-      --border:#243041;
-      --focus:#3b82f6;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background:linear-gradient(180deg, #0b0f17, #070a10);
-      color:var(--text);
-      padding:16px;
-    }
-    .wrap{max-width:860px;margin:0 auto;}
-    .card{
-      background:rgba(17,24,39,0.86);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      backdrop-filter: blur(6px);
-    }
-    h1{font-size:22px;margin:0 0 6px 0;}
-    .sub{font-size:14px;color:var(--muted);margin:0 0 14px 0;line-height:1.35;}
-    .grid{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;}
-    a.btn{
-      flex:1 1 280px;
-      text-decoration:none;
-      border:1px solid var(--border);
-      background:#0b1220;
-      color:var(--text);
-      border-radius:14px;
-      padding:14px 14px;
-      display:block;
-    }
-    a.btn:hover{
-      border-color:rgba(59,130,246,0.55);
-      box-shadow:0 0 0 3px rgba(59,130,246,0.12);
-    }
-    .t{font-size:16px;margin:0 0 4px 0;}
-    .d{font-size:13px;color:var(--muted);margin:0;line-height:1.35;}
-    .fine{margin-top:16px;color:var(--muted);font-size:12px;line-height:1.4;}
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="wrap">
@@ -59,14 +13,14 @@
       <p class="sub">Two quick calculators: what the ACC tax could add to a typical property tax bill, and what in-district tuition could save students.</p>
 
       <div class="grid">
-        <a class="btn" href="acc-tax-calc.html">
-          <p class="t">Property Tax Impact</p>
-          <p class="d">Estimate annual ACC tax, including exemptions.</p>
+        <a class="btnCard" href="acc-tax-calc.html">
+          <p class="btnTitle">Property Tax Impact</p>
+          <p class="btnDesc">Estimate annual ACC tax, including exemptions.</p>
         </a>
 
-        <a class="btn" href="acc-savings-calc.html">
-          <p class="t">Tuition Savings</p>
-          <p class="d">Compare in-district vs out-of-district ACC costs, with comparisons to other universities.</p>
+        <a class="btnCard" href="acc-savings-calc.html">
+          <p class="btnTitle">Tuition Savings</p>
+          <p class="btnDesc">Compare in-district vs out-of-district ACC costs, with comparisons to other universities.</p>
         </a>
       </div>
 

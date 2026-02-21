@@ -4,144 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Property Tax Impact</title>
-  <style>
-    :root{
-      --bg:#0b0f17;
-      --card:#111827;
-      --muted:#9ca3af;
-      --text:#e5e7eb;
-      --border:#243041;
-      --chip:#1f2937;
-      --focus:#3b82f6;
-      --good:#22c55e;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background:linear-gradient(180deg, #0b0f17, #070a10);
-      color:var(--text);
-      padding:16px;
-    }
-    .wrap{max-width:860px;margin:0 auto;}
-    .topnav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
-    a.back{
-      text-decoration:none;color:var(--text);
-      border:1px solid var(--border);
-      background:#0b1220;
-      padding:10px 12px;border-radius:12px;
-      font-size:13px;
-    }
-    a.back:hover{border-color:rgba(59,130,246,0.55); box-shadow:0 0 0 3px rgba(59,130,246,0.12);}
-    .card{
-      background:rgba(17,24,39,0.86);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      backdrop-filter: blur(6px);
-    }
-    h1{font-size:18px;margin:0 0 6px 0;}
-    .sub{font-size:13px;color:var(--muted);margin:0 0 14px 0;line-height:1.35;}
-
-    .row{display:flex;gap:12px;flex-wrap:wrap;}
-    .col{flex:1 1 280px;}
-
-    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px 0;}
-    input[type="number"]{
-      width:100%;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:#0b1220;
-      color:var(--text);
-      font-size:16px;
-      outline:none;
-    }
-    input[type="number"]:focus{
-      border-color:var(--focus);
-      box-shadow:0 0 0 3px rgba(59,130,246,0.15);
-    }
-
-    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
-    button.chip{
-      appearance:none;border:1px solid var(--border);background:var(--chip);color:var(--text);
-      padding:10px 12px;border-radius:999px;font-size:13px;cursor:pointer;
-    }
-    button.chip:active{transform:translateY(1px)}
-    button.chip.selected{
-      border-color:rgba(34,197,94,0.6);
-      box-shadow:0 0 0 3px rgba(34,197,94,0.12);
-    }
-
-    .toggle{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#0b1220;margin-top:10px;
-    }
-    .toggle .meta{display:flex;flex-direction:column;}
-    .toggle .meta span:first-child{font-size:14px;}
-    .toggle .meta span:last-child{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.25;}
-    .switch{position:relative;width:46px;height:26px;flex:0 0 auto;}
-    .switch input{display:none;}
-    .slider{
-      position:absolute;inset:0;background:#334155;border-radius:999px;transition:0.18s;border:1px solid var(--border);
-    }
-    .slider:before{
-      content:"";position:absolute;width:20px;height:20px;left:3px;top:2px;background:#e5e7eb;border-radius:50%;transition:0.18s;
-    }
-    .switch input:checked + .slider{
-      background:rgba(34,197,94,0.8);border-color:rgba(34,197,94,0.6);
-    }
-    .switch input:checked + .slider:before{transform:translateX(20px);}
-
-    .result{
-      margin-top:12px;
-      padding:14px 14px;
-      border-radius:16px;
-      border:1px solid rgba(34,197,94,0.35);
-      background:rgba(34,197,94,0.08);
-    }
-    .resultGrid{display:flex;gap:12px;flex-wrap:wrap;}
-    .metric{
-      flex:1 1 220px;
-      border:1px solid var(--border);
-      background:#0b1220;
-      border-radius:14px;
-      padding:12px 12px;
-    }
-    .metric .k{font-size:12px;color:var(--muted);margin:0 0 6px 0;}
-    .metric .v{font-size:22px;font-weight:700;margin:0;}
-    .fine{font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px;}
-
-    details{
-      border:1px solid var(--border);
-      background:#0b1220;
-      border-radius:14px;
-      padding:10px 12px;
-      margin-top:12px;
-    }
-    summary{
-      cursor:pointer;
-      list-style:none;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      font-size:14px;
-      outline:none;
-    }
-    summary::-webkit-details-marker{display:none;}
-    .caret{
-      width:10px;height:10px;flex:0 0 auto;
-      border-right:2px solid var(--muted);
-      border-bottom:2px solid var(--muted);
-      transform:rotate(-45deg);
-      transition:0.18s;
-      margin-left:8px;
-    }
-    details[open] .caret{transform:rotate(45deg);}
-    .body{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.45;}
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="wrap">
@@ -150,7 +13,7 @@
     </div>
 
     <div class="card">
-      <h1>Property Tax Impact</h1>
+      <h2>Property Tax Impact</h2>
       <p class="sub">Estimate annual ACC tax, including exemptions. All amounts are rounded to the nearest $1.</p>
 
       <div class="row">
@@ -194,14 +57,21 @@
         </div>
 
         <div class="col">
+          <label>Show as</label>
+          <div class="segment" role="tablist" aria-label="Billing period">
+            <button type="button" id="perDayBtn" aria-selected="false">Day</button>
+            <button type="button" id="perMonthBtn" class="active" aria-selected="true">Month</button>
+            <button type="button" id="perYearBtn" aria-selected="false">Year</button>
+          </div>
+
           <div class="result" aria-live="polite">
             <div class="resultGrid">
               <div class="metric">
                 <p class="k">Taxable value (after exemptions)</p>
                 <p class="v" id="taxableOut">$0</p>
               </div>
-              <div class="metric">
-                <p class="k">Estimated ACC tax (annual)</p>
+              <div class="metric good">
+                <p class="k" id="taxLabel">Estimated ACC tax (per month)</p>
                 <p class="v" id="taxOut">$0</p>
               </div>
               <div class="metric">
@@ -210,56 +80,60 @@
               </div>
             </div>
 
-            <div class="fine" id="breakdownOut"></div>
+            <div class="whatIncludes" id="breakdownOut"></div>
           </div>
 
-          <details>
-            <summary>
-              <span>FAQs</span>
-              <span class="caret" aria-hidden="true"></span>
-            </summary>
-            <div class="body">
-              <div><strong>What is the ACC tax rate?</strong><br>
-                ACC’s adopted rate is $0.1034 per $100 of taxable value (about $103.40 per $100,000 of taxable value). Rates can change each year.
-              </div>
+          <div class="accordion" aria-label="FAQs">
+            <details class="faq">
+              <summary><span>What is the ACC tax rate?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">ACC’s adopted rate is $0.1034 per $100 of taxable value (about $103.40 per $100,000 of taxable value). Rates can change each year.</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>What does “taxable value” mean?</strong><br>
-                Taxable value is your home’s value after exemptions are applied. Your county appraisal district calculates it.
-              </div>
+            <details class="faq">
+              <summary><span>What does “taxable value” mean?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">Taxable value is your home’s value after exemptions are applied. Your county appraisal district calculates it.</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>What is the Homestead exemption in this calculator?</strong><br>
-                For ACC, the homestead exemption is the larger of $5,000 or 1% of your home’s value. This reduces the taxable value used to calculate the ACC tax.
-              </div>
+            <details class="faq">
+              <summary><span>What is the Homestead exemption in this calculator?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">For ACC, the homestead exemption is the larger of $5,000 or 1% of your home’s value. This reduces the taxable value used to calculate the ACC tax.</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>What is the Age 65+ / Disabled exemption?</strong><br>
-                ACC provides an additional $75,000 exemption for homeowners who qualify as age 65+ or disabled (in addition to the homestead exemption, if you have it).
-              </div>
+            <details class="faq">
+              <summary><span>What is the Age 65+ / Disabled exemption?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">ACC provides an additional $75,000 exemption for homeowners who qualify as age 65+ or disabled (in addition to the homestead exemption, if you have it).</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>If I’m 65+ or disabled, what does “tax ceiling” (freeze) mean?</strong><br>
-                A tax ceiling means the ACC portion of your tax bill can’t increase above the amount you pay in the year the ceiling starts for ACC. It can go down, but it generally can’t go up (certain home improvements can change the ceiling rules).
-              </div>
+            <details class="faq">
+              <summary><span>If I’m 65+ or disabled, what does “tax ceiling” (freeze) mean?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">A tax ceiling means the ACC portion of your tax bill can’t increase above the amount you pay in the year the ceiling starts for ACC. It can go down, but it generally can’t go up (certain home improvements can change the ceiling rules).</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>I already have the 65+ exemption. Will my ACC tax be frozen at my old (pre-ACC) amount?</strong><br>
-                No. If ACC wasn’t taxing your property before, there was no ACC tax amount to freeze. The ACC ceiling would start the first year your property is taxed by ACC as an in-district property.
-              </div>
+            <details class="faq">
+              <summary><span>I already have the 65+ exemption. Will my ACC tax be frozen at my old (pre-ACC) amount?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">No. If ACC wasn’t taxing your property before, there was no ACC tax amount to freeze. The ACC ceiling would start the first year your property is taxed by ACC as an in-district property.</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>Do I need to reapply for exemptions if we become in-district?</strong><br>
-                Usually no if your exemptions are already on file, but you should verify with your county appraisal district. This tool assumes exemptions are already applied correctly.
-              </div>
+            <details class="faq">
+              <summary><span>Do I need to reapply for exemptions if we become in-district?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">Usually no if your exemptions are already on file, but you should verify with your county appraisal district. This tool assumes exemptions are already applied correctly.</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>Does this affect renters?</strong><br>
-                Renters don’t receive exemptions directly, but property taxes can affect housing costs over time. The main direct benefit for renters is education and job training access (tuition, programs, retraining).
-              </div>
+            <details class="faq">
+              <summary><span>Does this affect renters?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">Renters don’t receive exemptions directly, but property taxes can affect housing costs over time. The main direct benefit for renters is education and job training access (tuition, programs, retraining).</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>What does “in-district” change besides taxes?</strong><br>
-                In-district status reduces ACC tuition for residents and can remove out-of-district charges for students who take ACC classes. It also makes it easier to expand dual-credit, career training, and adult education participation because the cost barrier is lower.
-              </div>
+            <details class="faq">
+              <summary><span>What does “in-district” change besides taxes?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">In-district status reduces ACC tuition for residents and can remove out-of-district charges for students who take ACC classes. It also makes it easier to expand dual-credit, career training, and adult education participation because the cost barrier is lower.</div>
+            </details>
 
-              <div style="margin-top:10px;"><strong>Why does the calculator show “Age 65+” and “Disabled” separately?</strong><br>
-                They are separate qualification paths. The additional ACC exemption amount is applied once, even if someone qualifies under both.
-              </div>
-            </div>
-          </details>
+            <details class="faq">
+              <summary><span>Why does the calculator show “Age 65+” and “Disabled” separately?</span><span class="caret" aria-hidden="true"></span></summary>
+              <div class="faqBody">They are separate qualification paths. The additional ACC exemption amount is applied once, even if someone qualifies under both.</div>
+            </details>
+          </div>
         </div>
       </div>
     </div>
@@ -307,6 +181,23 @@
       });
     }
 
+    let period = "month"; // default
+
+    function setPeriod(next){
+      period = next;
+      $("perDayBtn").classList.toggle("active", period === "day");
+      $("perMonthBtn").classList.toggle("active", period === "month");
+      $("perYearBtn").classList.toggle("active", period === "year");
+
+      $("perDayBtn").setAttribute("aria-selected", period === "day");
+      $("perMonthBtn").setAttribute("aria-selected", period === "month");
+      $("perYearBtn").setAttribute("aria-selected", period === "year");
+
+      const label = period === "day" ? "per day" : (period === "month" ? "per month" : "per year");
+      $("taxLabel").textContent = `Estimated ACC tax (${label})`;
+      compute();
+    }
+
     function compute(){
       const homeValue = Math.max(0, Number($("homeValue").value || 0));
       selectChip(homeValue);
@@ -319,10 +210,14 @@
       const addlEx = (has65 || hasDisabled) ? ADDL_EXEMPT_65_DISABLED : 0;
 
       const taxable = Math.max(0, homeValue - homesteadEx - addlEx);
-      const tax = (taxable / 100) * ACC_RATE_PER_100;
+      const annualTax = (taxable / 100) * ACC_RATE_PER_100;
+
+      let displayTax = annualTax;
+      if (period === "month") displayTax = annualTax / 12;
+      if (period === "day") displayTax = annualTax / 365;
 
       $("taxableOut").textContent = formatMoney0(round1(taxable));
-      $("taxOut").textContent = formatMoney0(round1(tax));
+      $("taxOut").textContent = formatMoney0(round1(displayTax));
       $("rateOut").textContent = `$${ACC_RATE_PER_100.toFixed(4)} / $100`;
 
       const parts = [];
@@ -330,7 +225,7 @@
       if (hasHomestead) parts.push(`Homestead exemption: −${formatMoney0(round1(homesteadEx))}`);
       if (addlEx > 0) parts.push(`65+/Disabled exemption: −${formatMoney0(round1(addlEx))}`);
       parts.push(`Taxable value: ${formatMoney0(round1(taxable))}`);
-      parts.push(`Estimated annual ACC tax: ${formatMoney0(round1(tax))}`);
+      parts.push(`Annual ACC tax: ${formatMoney0(round1(annualTax))}`);
       $("breakdownOut").textContent = parts.join(" • ");
     }
 
@@ -339,8 +234,12 @@
       $(id).addEventListener("change", compute);
     });
 
+    $("perDayBtn").addEventListener("click", () => setPeriod("day"));
+    $("perMonthBtn").addEventListener("click", () => setPeriod("month"));
+    $("perYearBtn").addEventListener("click", () => setPeriod("year"));
+
     buildChips();
-    compute();
+    setPeriod("month");
   </script>
 </body>
 </html>
