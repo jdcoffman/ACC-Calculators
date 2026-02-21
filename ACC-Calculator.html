@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ACC In-District Tax & Savings Calculator</title>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#e5e7eb;
+      --accent:#22c55e;
+      --border:#243041;
+      --chip:#1f2937;
+      --focus:#3b82f6;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg, #0b0f17, #070a10);
+      color:var(--text);
+      padding:16px;
+    }
+    .wrap{max-width:760px;margin:0 auto;}
+    .card{
+      background:rgba(17,24,39,0.86);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+    }
+    h1{
+      font-size:18px;
+      margin:0 0 6px 0;
+      letter-spacing:0.2px;
+    }
+    .sub{
+      font-size:13px;
+      color:var(--muted);
+      margin:0 0 14px 0;
+      line-height:1.35;
+    }
+    .row{display:flex;gap:12px;flex-wrap:wrap;}
+    .col{flex:1 1 280px;}
+    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px 0;}
+    input[type="text"]{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#0b1220;
+      color:var(--text);
+      font-size:16px;
+      outline:none;
+    }
+    input[type="text"]:focus{
+      border-color:var(--focus);
+      box-shadow:0 0 0 3px rgba(59,130,246,0.15);
+    }
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+    button.chip{
+      appearance:none;
+      border:1px solid var(--border);
+      background:var(--chip);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    button.chip:active{transform:translateY(1px)}
+    button.chip.selected{
+      border-color:rgba(34,197,94,0.6);
+      box-shadow:0 0 0 3px rgba(34,197,94,0.12);
+    }
+    .toggle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#0b1220;
+      margin-top:8px;
+    }
+    .toggle .meta{display:flex;flex-direction:column;}
+    .toggle .meta span:first-child{font-size:14px;}
+    .toggle .meta span:last-child{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.25;}
+    .switch{position:relative;width:46px;height:26px;flex:0 0 auto;}
+    .switch input{display:none;}
+    .slider{
+      position:absolute;inset:0;background:#334155;border-radius:999px;transition:0.18s;border:1px solid var(--border);
+    }
+    .slider:before{
+      content:"";position:absolute;width:20px;height:20px;left:3px;top:2px;background:#e5e7eb;border-radius:50%;transition:0.18s;
+    }
+    .switch input:checked + .slider{
+      background:rgba(34,197,94,0.8);
+      border-color:rgba(34,197,94,0.6);
+    }
+    .switch input:checked + .slider:before{transform:translateX(20px);}
+    .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+    .pill{
+      font-size:12px;
+      border:1px solid var(--border);
+      background:#0b1220;
+      padding:8px 10px;
+      border-radius:999px;
+      color:var(--muted);
+    }
+    .result{
+      margin-top:14px;
+      padding:14px 14px;
+      border-radius:16px;
+      border:1px solid rgba(34,197,94,0.35);
+      background:rgba(34,197,94,0.08);
+    }
+    .result .big{font-size:28px;font-weight:700;letter-spacing:0.2px;margin:4px 0 2px 0;}
+    .result .small{font-size:12px;color:var(--muted);line-height:1.35;}
+    .fine{
+      font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px;
+    }
+    .danger{
+      color:#e5e7eb;
+      background:rgba(239,68,68,0.12);
+      border:1px solid rgba(239,68,68,0.35);
+      padding:10px 12px;
+      border-radius:12px;
+      margin-top:12px;
+      font-size:12px;
+      line-height:1.45;
+      display:none;
+    }
+    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+    .btn{
+      border:1px solid var(--border);
+      background:#0b1220;
+      color:var(--text);
+      padding:12px 12px;
+      border-radius:12px;
+      font-size:14px;
+      cursor:pointer;
+      flex:1 1 160px;
+    }
+    .btn.primary{
+      border-color:rgba(34,197,94,0.5);
+      background:rgba(34,197,94,0.15);
+    }
+    .sectionTitle{
+      margin:18px 0 8px 0;
+      font-size:14px;
+      color:var(--text);
+      letter-spacing:0.2px;
+    }
+
+    /* Accordion / FAQ */
+    details{
+      border:1px solid var(--border);
+      background:#0b1220;
+      border-radius:14px;
+      padding:10px 12px;
+      margin-top:10px;
+    }
+    summary{
+      cursor:pointer;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:14px;
+      outline:none;
+    }
+    summary::-webkit-details-marker{display:none;}
+    .caret{
+      width:10px;height:10px;flex:0 0 auto;
+      border-right:2px solid var(--muted);
+      border-bottom:2px solid var(--muted);
+      transform:rotate(-45deg);
+      transition:0.18s;
+      margin-left:8px;
+    }
+    details[open] .caret{transform:rotate(45deg);}
+    .faqBody{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+    }
+    .divider{
+      height:1px;
+      background:var(--border);
+      margin:14px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>ACC In-District Tax &amp; Savings Calculator</h1>
+      <p class="sub">
+        Estimates the annual <strong>Austin Community College (ACC)</strong> property tax based on your home value and selected exemptions.
+        Results are <strong>rounded to the nearest dollar</strong>.
+      </p>
+
+      <div class="row">
+        <div class="col">
+          <label>Pick a preset home value</label>
+          <div class="chips" id="presetChips"></div>
+
+          <label>Or enter your own value</label>
+          <input id="homeValue" type="text" inputmode="numeric" placeholder="e.g., 350000" />
+
+          <div class="danger" id="warn"></div>
+
+          <div class="pillrow">
+            <div class="pill" id="ratePill">ACC rate: $0.1034 / $100</div>
+            <div class="pill" id="taxablePill">Taxable value: —</div>
+            <div class="pill" id="roundingPill">Rounded: nearest $1</div>
+          </div>
+        </div>
+
+        <div class="col">
+          <label>Exemptions</label>
+
+          <div class="toggle">
+            <div class="meta">
+              <span>Homestead</span>
+              <span>ACC: max($5,000, 1% of value)</span>
+            </div>
+            <label class="switch">
+              <input id="exHomestead" type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle">
+            <div class="meta">
+              <span>Age 65+</span>
+              <span>Additional ACC exemption: $75,000</span>
+            </div>
+            <label class="switch">
+              <input id="ex65" type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle">
+            <div class="meta">
+              <span>Disabled</span>
+              <span>Additional ACC exemption: $75,000</span>
+            </div>
+            <label class="switch">
+              <input id="exDisabled" type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button class="btn" id="resetBtn" type="button">Reset</button>
+            <button class="btn primary" id="copyBtn" type="button">Copy share text</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="result" aria-live="polite">
+        <div class="small">Estimated annual ACC tax (rounded)</div>
+        <div class="big" id="annualOut">$0</div>
+        <div class="small" id="detailOut">
+          Enter a home value to calculate. This estimate only covers ACC, not city/county/school.
+        </div>
+      </div>
+
+      <div class="fine">
+        Calculation: taxable value = max(0, home value − exemptions). ACC tax = taxable value × 0.001034.
+        The additional $75,000 exemption is applied once even if both 65+ and Disabled are selected.
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="sectionTitle">FAQs</div>
+
+      <details>
+        <summary>
+          <span>What is the ACC tax rate?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          ACC’s adopted rate is $0.1034 per $100 of taxable value (about $103.40 per $100,000 of taxable value). Rates can change each year.
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>What does “taxable value” mean?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          Taxable value is your home’s value after exemptions are applied. Your county appraisal district calculates it.
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>What is the Homestead exemption in this calculator?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          For ACC, the homestead exemption is the larger of $5,000 or 1% of your home’s value. This reduces the taxable value used to calculate the ACC tax.
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>What is the Age 65+ / Disabled exemption?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          ACC provides an additional $75,000 exemption for homeowners who qualify as age 65+ or disabled (in addition to the homestead exemption, if you have it).
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>If I’m 65+ or disabled, what does “tax ceiling” (freeze) mean?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          A tax ceiling means the ACC portion of your tax bill can’t increase above the amount you pay in the year the ceiling starts for ACC. It can go down, but it generally can’t go up (certain home improvements can change the ceiling rules).
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>I already have the 65+ exemption. Will my ACC tax be frozen at my old (pre-ACC) amount?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          No. If ACC wasn’t taxing your property before, there was no ACC tax amount to freeze. The ACC ceiling would start the first year your property is taxed by ACC as an in-district property.
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>Do I need to reapply for exemptions if we become in-district?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          Usually no if your exemptions are already on file, but you should verify with your county appraisal district. This tool assumes exemptions are already applied correctly.
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>Does this affect renters?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          Renters don’t receive exemptions directly, but property taxes can affect housing costs over time. The main direct benefit for renters is education and job training access (tuition, programs, retraining).
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>What does “in-district” change besides taxes?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          In-district status reduces ACC tuition for residents and can remove out-of-district charges for students who take ACC classes. It also makes it easier to expand dual-credit, career training, and adult education participation because the cost barrier is lower.
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>Why does the calculator show “Age 65+” and “Disabled” separately?</span>
+          <span class="caret" aria-hidden="true"></span>
+        </summary>
+        <div class="faqBody">
+          They are separate qualification paths. The additional ACC exemption amount is applied once, even if someone qualifies under both.
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <script>
+    // ACC: $0.1034 per $100 => 0.001034 per $1
+    const ACC_RATE_PER_DOLLAR = 0.1034 / 100;
+
+    // Homestead: max($5,000, 1% of value)
+    const HOMESTEAD_MIN = 5000;
+    const HOMESTEAD_PCT = 0.01;
+
+    // Additional exemption for 65+ OR Disabled: $75,000 (apply once)
+    const ADDL_EXEMPT_65_DISABLED = 75000;
+
+    const PRESETS = [200000, 250000, 300000, 350000, 400000, 500000, 650000];
+
+    const $ = (id) => document.getElementById(id);
+
+    function formatMoney(n) {
+      const v = Number(n);
+      if (!isFinite(v)) return "$0";
+      return v.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    }
+
+    function parseCurrencyLike(text) {
+      const cleaned = (text || "").toString().replace(/[^0-9.]/g, "");
+      const num = Number(cleaned);
+      return isFinite(num) ? num : NaN;
+    }
+
+    function clampNonNegative(n) {
+      return Math.max(0, n);
+    }
+
+    function homesteadExemptionAmount(value) {
+      return Math.max(HOMESTEAD_MIN, value * HOMESTEAD_PCT);
+    }
+
+    function exemptionsBreakdown(value) {
+      const parts = [];
+      let total = 0;
+
+      const homesteadOn = $("exHomestead").checked;
+      const addlOn = $("ex65").checked || $("exDisabled").checked;
+
+      if (homesteadOn) {
+        const amt = homesteadExemptionAmount(value);
+        total += amt;
+        parts.push({ name: "Homestead", amount: amt });
+      }
+
+      if (addlOn) {
+        total += ADDL_EXEMPT_65_DISABLED;
+        parts.push({ name: "65+/Disabled", amount: ADDL_EXEMPT_65_DISABLED });
+      }
+
+      return { total, parts, homesteadOn, addlOn };
+    }
+
+    function compute() {
+      const warn = $("warn");
+      warn.style.display = "none";
+      warn.textContent = "";
+
+      const homeValue = parseCurrencyLike($("homeValue").value);
+
+      if (!isFinite(homeValue) || homeValue < 0) {
+        $("annualOut").textContent = "$0";
+        $("taxablePill").textContent = "Taxable value: —";
+        $("detailOut").textContent = "Enter a home value to calculate. This estimate only covers ACC, not city/county/school.";
+        if (($("homeValue").value || "").trim().length > 0) {
+          warn.style.display = "block";
+          warn.textContent = "Enter a valid non-negative number for home value (e.g., 350000).";
+        }
+        return;
+      }
+
+      const ex = exemptionsBreakdown(homeValue);
+      const taxable = clampNonNegative(homeValue - ex.total);
+      const annualExact = taxable * ACC_RATE_PER_DOLLAR;
+      const annualRounded = Math.round(annualExact);
+
+      $("taxablePill").textContent = "Taxable value: " + formatMoney(taxable);
+      $("annualOut").textContent = formatMoney(annualRounded);
+
+      const partsText = ex.parts.length
+        ? ex.parts.map(p => `${p.name}: ${formatMoney(p.amount)}`).join(" • ")
+        : "None";
+
+      $("detailOut").textContent =
+        `Home value: ${formatMoney(homeValue)} • Exemptions: ${partsText} • ` +
+        `Taxable value: ${formatMoney(taxable)} • ACC rate: $0.1034 per $100 • ` +
+        `Annual ACC tax (rounded): ${formatMoney(annualRounded)}.`;
+    }
+
+    function setHomeValue(v) {
+      $("homeValue").value = String(v);
+      [...document.querySelectorAll("button.chip")].forEach(btn => {
+        btn.classList.toggle("selected", Number(btn.dataset.value) === Number(v));
+      });
+      compute();
+    }
+
+    function buildPresetChips() {
+      const host = $("presetChips");
+      host.innerHTML = "";
+      PRESETS.forEach(v => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chip";
+        btn.dataset.value = String(v);
+        btn.textContent = formatMoney(v);
+        btn.addEventListener("click", () => setHomeValue(v));
+        host.appendChild(btn);
+      });
+    }
+
+    function resetAll() {
+      $("homeValue").value = "";
+      $("exHomestead").checked = false;
+      $("ex65").checked = false;
+      $("exDisabled").checked = false;
+      [...document.querySelectorAll("button.chip")].forEach(btn => btn.classList.remove("selected"));
+      compute();
+    }
+
+    function buildShareText() {
+      const homeValue = parseCurrencyLike($("homeValue").value);
+      if (!isFinite(homeValue) || homeValue < 0) return "ACC tax estimate: enter a home value to calculate.";
+
+      const ex = exemptionsBreakdown(homeValue);
+      const taxable = clampNonNegative(homeValue - ex.total);
+      const annualRounded = Math.round(taxable * ACC_RATE_PER_DOLLAR);
+
+      const partsText = ex.parts.length
+        ? ex.parts.map(p => `${p.name} (${formatMoney(p.amount)})`).join(", ")
+        : "None";
+
+      return [
+        "ACC In-District Tax Estimate (rounded to nearest $1)",
+        `Home value: ${formatMoney(homeValue)}`,
+        `Exemptions: ${partsText}`,
+        `Taxable value: ${formatMoney(taxable)}`,
+        "ACC rate: $0.1034 per $100",
+        `Estimated annual ACC tax: ${formatMoney(annualRounded)}`
+      ].join("\n");
+    }
+
+    async function copyShareText() {
+      const text = buildShareText();
+      try {
+        await navigator.clipboard.writeText(text);
+        $("copyBtn").textContent = "Copied";
+        setTimeout(() => $("copyBtn").textContent = "Copy share text", 900);
+      } catch {
+        prompt("Copy this text:", text);
+      }
+    }
+
+    // Wire-up
+    buildPresetChips();
+
+    $("homeValue").addEventListener("input", () => {
+      [...document.querySelectorAll("button.chip")].forEach(btn => btn.classList.remove("selected"));
+      compute();
+    });
+
+    ["exHomestead","ex65","exDisabled"].forEach(id => {
+      $(id).addEventListener("change", compute);
+    });
+
+    $("resetBtn").addEventListener("click", resetAll);
+    $("copyBtn").addEventListener("click", copyShareText);
+
+    compute();
+  </script>
+</body>
+</html>
