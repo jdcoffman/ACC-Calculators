@@ -18,9 +18,13 @@
 
       <div class="row">
         <div class="col">
-          <label>Home value ($)</label>
+          <label>Home value</label>
           <div class="chips" id="valueChips"></div>
-          <input id="homeValue" type="number" min="0" step="1000" value="350000" />
+
+          <div id="customWrap" style="display:none; margin-top:10px;">
+            <label style="margin-top:0;">Custom home value ($)</label>
+            <input id="customValue" type="number" min="0" step="1000" inputmode="numeric" placeholder="Enter your home value" />
+          </div>
 
           <div class="toggle">
             <div class="meta">
@@ -36,7 +40,7 @@
           <div class="toggle">
             <div class="meta">
               <span>Age 65+ exemption</span>
-              <span>Additional $75,000 (applied once)</span>
+              <span>Additional $75,000 (applied once). Rate frozen after year-1.</span>
             </div>
             <label class="switch">
               <input id="has65" type="checkbox" />
@@ -47,7 +51,7 @@
           <div class="toggle">
             <div class="meta">
               <span>Disabled exemption</span>
-              <span>Additional $75,000 (applied once)</span>
+              <span>Additional $75,000 (applied once). Rate frozen after year-1.</span>
             </div>
             <label class="switch">
               <input id="hasDisabled" type="checkbox" />
@@ -73,10 +77,6 @@
               <div class="metric good">
                 <p class="k" id="taxLabel">Estimated ACC tax (per month)</p>
                 <p class="v" id="taxOut">$0</p>
-              </div>
-              <div class="metric">
-                <p class="k">ACC rate used</p>
-                <p class="v" id="rateOut">$0</p>
               </div>
             </div>
 
@@ -156,32 +156,9 @@
     }
     function round1(n){ return Math.round(Number(n) || 0); }
 
-    function buildChips(){
-      const host = $("valueChips");
-      host.innerHTML = "";
-      VALUE_PRESETS.forEach(v => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "chip";
-        b.dataset.value = String(v);
-        b.textContent = formatMoney0(v);
-        b.addEventListener("click", () => {
-          $("homeValue").value = v;
-          selectChip(v);
-          compute();
-        });
-        host.appendChild(b);
-      });
-      selectChip(Number($("homeValue").value || 0));
-    }
-
-    function selectChip(val){
-      [...$("valueChips").querySelectorAll("button.chip")].forEach(btn => {
-        btn.classList.toggle("selected", Number(btn.dataset.value) === Number(val));
-      });
-    }
-
     let period = "month"; // default
+    let valueMode = "preset"; // "preset" | "custom"
+    let presetValue = 350000;
 
     function setPeriod(next){
       period = next;
@@ -198,9 +175,63 @@
       compute();
     }
 
+    function selectChip(key){
+      [...$("valueChips").querySelectorAll("button.chip")].forEach(btn => {
+        btn.classList.toggle("selected", btn.dataset.key === String(key));
+      });
+    }
+
+    function setPreset(v){
+      valueMode = "preset";
+      presetValue = Number(v);
+      $("customWrap").style.display = "none";
+      selectChip(String(v));
+      compute();
+    }
+
+    function setCustom(){
+      valueMode = "custom";
+      $("customWrap").style.display = "block";
+      selectChip("custom");
+      if (!$("customValue").value) $("customValue").value = String(presetValue);
+      $("customValue").focus();
+      compute();
+    }
+
+    function getHomeValue(){
+      if (valueMode === "custom") {
+        return Math.max(0, Number($("customValue").value || 0));
+      }
+      return Math.max(0, Number(presetValue || 0));
+    }
+
+    function buildChips(){
+      const host = $("valueChips");
+      host.innerHTML = "";
+
+      VALUE_PRESETS.forEach(v => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip";
+        b.dataset.key = String(v);
+        b.textContent = formatMoney0(v);
+        b.addEventListener("click", () => setPreset(v));
+        host.appendChild(b);
+      });
+
+      const c = document.createElement("button");
+      c.type = "button";
+      c.className = "chip";
+      c.dataset.key = "custom";
+      c.textContent = "Custom";
+      c.addEventListener("click", () => setCustom());
+      host.appendChild(c);
+
+      selectChip(String(presetValue));
+    }
+
     function compute(){
-      const homeValue = Math.max(0, Number($("homeValue").value || 0));
-      selectChip(homeValue);
+      const homeValue = getHomeValue();
 
       const hasHomestead = $("hasHomestead").checked;
       const has65 = $("has65").checked;
@@ -218,7 +249,6 @@
 
       $("taxableOut").textContent = formatMoney0(round1(taxable));
       $("taxOut").textContent = formatMoney0(round1(displayTax));
-      $("rateOut").textContent = `$${ACC_RATE_PER_100.toFixed(4)} / $100`;
 
       const parts = [];
       parts.push(`Home value: ${formatMoney0(round1(homeValue))}`);
@@ -229,10 +259,11 @@
       $("breakdownOut").textContent = parts.join(" • ");
     }
 
-    ["homeValue","hasHomestead","has65","hasDisabled"].forEach(id => {
-      $(id).addEventListener("input", compute);
+    ["hasHomestead","has65","hasDisabled"].forEach(id => {
       $(id).addEventListener("change", compute);
     });
+
+    $("customValue").addEventListener("input", compute);
 
     $("perDayBtn").addEventListener("click", () => setPeriod("day"));
     $("perMonthBtn").addEventListener("click", () => setPeriod("month"));
@@ -240,6 +271,7 @@
 
     buildChips();
     setPeriod("month");
+    compute();
   </script>
 </body>
 </html>
