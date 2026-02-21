@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bring ACC to Pflugerville</title>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#e5e7eb;
+      --border:#243041;
+      --focus:#3b82f6;
+      --good:#22c55e;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg, #0b0f17, #070a10);
+      color:var(--text);
+      padding:16px;
+    }
+    .wrap{max-width:860px;margin:0 auto;}
+    .card{
+      background:rgba(17,24,39,0.86);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+    }
+    h1{font-size:22px;margin:0 0 6px 0;}
+    .sub{font-size:14px;color:var(--muted);margin:0 0 14px 0;line-height:1.35;}
+    .grid{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;}
+    a.btn{
+      flex:1 1 280px;
+      text-decoration:none;
+      border:1px solid var(--border);
+      background:#0b1220;
+      color:var(--text);
+      border-radius:14px;
+      padding:14px 14px;
+      display:block;
+    }
+    a.btn:hover{border-color:rgba(59,130,246,0.55); box-shadow:0 0 0 3px rgba(59,130,246,0.12);}
+    .t{font-size:16px;margin:0 0 4px 0;}
+    .d{font-size:13px;color:var(--muted);margin:0;line-height:1.35;}
+    .fine{margin-top:16px;color:var(--muted);font-size:12px;line-height:1.4;}
+    .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+    .pill{
+      font-size:12px;border:1px solid var(--border);background:#0b1220;padding:8px 10px;border-radius:999px;color:var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Bring ACC to Pflugerville</h1>
+      <p class="sub">Use these quick tools to estimate the ACC tax impact and the potential tuition savings. All amounts are rounded to the nearest $1.</p>
+
+      <div class="grid">
+        <a class="btn" href="acc-tax-calc.html">
+          <p class="t">ACC In-District Tax & Savings Calculator</p>
+          <p class="d">Estimate your ACC property tax based on home value and exemptions.</p>
+        </a>
+
+        <a class="btn" href="acc-savings-calc.html">
+          <p class="t">ACC Tuition Savings Calculator</p>
+          <p class="d">Compare in-district vs out-of-district ACC costs (with an optional 4-year comparison).</p>
+        </a>
+      </div>
+
+      <div class="pillrow">
+        <div class="pill">ACC rate used: $0.1034 per $100</div>
+        <div class="pill">ACC homestead exemption: max($5,000, 1% of value)</div>
+        <div class="pill">ACC 65+/disabled exemption: $75,000</div>
+      </div>
+
+      <div class="fine">
+        These are estimators for communication and planning. Your county appraisal district determines exemptions and taxable value, and ACC rates can change each year.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

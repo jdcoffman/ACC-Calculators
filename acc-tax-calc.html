@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ACC In-District Tax & Savings Calculator</title>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#e5e7eb;
+      --border:#243041;
+      --chip:#1f2937;
+      --focus:#3b82f6;
+      --good:#22c55e;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg, #0b0f17, #070a10);
+      color:var(--text);
+      padding:16px;
+    }
+    .wrap{max-width:860px;margin:0 auto;}
+    .topnav{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;
+    }
+    a.back{
+      text-decoration:none;color:var(--text);
+      border:1px solid var(--border);
+      background:#0b1220;
+      padding:10px 12px;border-radius:12px;
+      font-size:13px;
+    }
+    a.back:hover{border-color:rgba(59,130,246,0.55); box-shadow:0 0 0 3px rgba(59,130,246,0.12);}
+    .card{
+      background:rgba(17,24,39,0.86);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+    }
+    h1{font-size:18px;margin:0 0 6px 0;}
+    .sub{font-size:13px;color:var(--muted);margin:0 0 14px 0;line-height:1.35;}
+
+    .row{display:flex;gap:12px;flex-wrap:wrap;}
+    .col{flex:1 1 280px;}
+
+    label{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px 0;}
+    input[type="number"]{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#0b1220;
+      color:var(--text);
+      font-size:16px;
+      outline:none;
+    }
+    input[type="number"]:focus{
+      border-color:var(--focus);
+      box-shadow:0 0 0 3px rgba(59,130,246,0.15);
+    }
+
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+    button.chip{
+      appearance:none;border:1px solid var(--border);background:var(--chip);color:var(--text);
+      padding:10px 12px;border-radius:999px;font-size:13px;cursor:pointer;
+    }
+    button.chip:active{transform:translateY(1px)}
+    button.chip.selected{
+      border-color:rgba(34,197,94,0.6);
+      box-shadow:0 0 0 3px rgba(34,197,94,0.12);
+    }
+
+    .toggle{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#0b1220;margin-top:10px;
+    }
+    .toggle .meta{display:flex;flex-direction:column;}
+    .toggle .meta span:first-child{font-size:14px;}
+    .toggle .meta span:last-child{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.25;}
+    .switch{position:relative;width:46px;height:26px;flex:0 0 auto;}
+    .switch input{display:none;}
+    .slider{
+      position:absolute;inset:0;background:#334155;border-radius:999px;transition:0.18s;border:1px solid var(--border);
+    }
+    .slider:before{
+      content:"";position:absolute;width:20px;height:20px;left:3px;top:2px;background:#e5e7eb;border-radius:50%;transition:0.18s;
+    }
+    .switch input:checked + .slider{
+      background:rgba(34,197,94,0.8);border-color:rgba(34,197,94,0.6);
+    }
+    .switch input:checked + .slider:before{transform:translateX(20px);}
+
+    .result{
+      margin-top:12px;
+      padding:14px 14px;
+      border-radius:16px;
+      border:1px solid rgba(34,197,94,0.35);
+      background:rgba(34,197,94,0.08);
+    }
+    .resultGrid{display:flex;gap:12px;flex-wrap:wrap;}
+    .metric{
+      flex:1 1 220px;
+      border:1px solid var(--border);
+      background:#0b1220;
+      border-radius:14px;
+      padding:12px 12px;
+    }
+    .metric .k{font-size:12px;color:var(--muted);margin:0 0 6px 0;}
+    .metric .v{font-size:22px;font-weight:700;margin:0;}
+    .fine{font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px;}
+
+    details{
+      border:1px solid var(--border);
+      background:#0b1220;
+      border-radius:14px;
+      padding:10px 12px;
+      margin-top:12px;
+    }
+    summary{
+      cursor:pointer;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:14px;
+      outline:none;
+    }
+    summary::-webkit-details-marker{display:none;}
+    .caret{
+      width:10px;height:10px;flex:0 0 auto;
+      border-right:2px solid var(--muted);
+      border-bottom:2px solid var(--muted);
+      transform:rotate(-45deg);
+      transition:0.18s;
+      margin-left:8px;
+    }
+    details[open] .caret{transform:rotate(45deg);}
+    .body{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.45;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topnav">
+      <a class="back" href="index.html">← Back</a>
+    </div>
+
+    <div class="card">
+      <h1>ACC In-District Tax & Savings Calculator</h1>
+      <p class="sub">
+        Enter your home value (or pick a preset), select exemptions, and view your estimated annual ACC property tax.
+        All amounts are rounded to the nearest $1.
+      </p>
+
+      <div class="row">
+        <div class="col">
+          <label>Home value ($)</label>
+          <div class="chips" id="valueChips"></div>
+          <input id="homeValue" type="number" min="0" step="1000" value="350000" />
+
+          <div class="toggle">
+            <div class="meta">
+              <span>Homestead exemption</span>
+              <span>For ACC: max($5,000, 1% of home value)</span>
+            </div>
+            <label class="switch">
+              <input id="hasHomestead" type="checkbox" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle">
+            <div class="meta">
+              <span>Age 65+ exemption</span>
+              <span>Additional $75,000 (applied once)</span>
+            </div>
+            <label class="switch">
+              <input id="has65" type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle">
+            <div class="meta">
+              <span>Disabled exemption</span>
+              <span>Additional $75,000 (applied once)</span>
+            </div>
+            <label class="switch">
+              <input id="hasDisabled" type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="result" aria-live="polite">
+            <div class="resultGrid">
+              <div class="metric">
+                <p class="k">Taxable value (after exemptions)</p>
+                <p class="v" id="taxableOut">$0</p>
+              </div>
+              <div class="metric">
+                <p class="k">Estimated ACC tax (annual)</p>
+                <p class="v" id="taxOut">$0</p>
+              </div>
+              <div class="metric">
+                <p class="k">ACC rate used</p>
+                <p class="v" id="rateOut">$0</p>
+              </div>
+            </div>
+
+            <div class="fine" id="breakdownOut"></div>
+          </div>
+
+          <details>
+            <summary>
+              <span>FAQs</span>
+              <span class="caret" aria-hidden="true"></span>
+            </summary>
+            <div class="body">
+              <div><strong>What is the ACC tax rate?</strong><br>
+                ACC’s adopted rate is $0.1034 per $100 of taxable value (about $103.40 per $100,000 of taxable value). Rates can change each year.
+              </div>
+
+              <div style="margin-top:10px;"><strong>What does “taxable value” mean?</strong><br>
+                Taxable value is your home’s value after exemptions are applied. Your county appraisal district calculates it.
+              </div>
+
+              <div style="margin-top:10px;"><strong>What is the Homestead exemption in this calculator?</strong><br>
+                For ACC, the homestead exemption is the larger of $5,000 or 1% of your home’s value. This reduces the taxable value used to calculate the ACC tax.
+              </div>
+
+              <div style="margin-top:10px;"><strong>What is the Age 65+ / Disabled exemption?</strong><br>
+                ACC provides an additional $75,000 exemption for homeowners who qualify as age 65+ or disabled (in addition to the homestead exemption, if you have it).
+              </div>
+
+              <div style="margin-top:10px;"><strong>If I’m 65+ or disabled, what does “tax ceiling” (freeze) mean?</strong><br>
+                A tax ceiling means the ACC portion of your tax bill can’t increase above the amount you pay in the year the ceiling starts for ACC. It can go down, but it generally can’t go up (certain home improvements can change the ceiling rules).
+              </div>
+
+              <div style="margin-top:10px;"><strong>I already have the 65+ exemption. Will my ACC tax be frozen at my old (pre-ACC) amount?</strong><br>
+                No. If ACC wasn’t taxing your property before, there was no ACC tax amount to freeze. The ACC ceiling would start the first year your property is taxed by ACC as an in-district property.
+              </div>
+
+              <div style="margin-top:10px;"><strong>Do I need to reapply for exemptions if we become in-district?</strong><br>
+                Usually no if your exemptions are already on file, but you should verify with your county appraisal district. This tool assumes exemptions are already applied correctly.
+              </div>
+
+              <div style="margin-top:10px;"><strong>Does this affect renters?</strong><br>
+                Renters don’t receive exemptions directly, but property taxes can affect housing costs over time. The main direct benefit for renters is education and job training access (tuition, programs, retraining).
+              </div>
+
+              <div style="margin-top:10px;"><strong>What does “in-district” change besides taxes?</strong><br>
+                In-district status reduces ACC tuition for residents and can remove out-of-district charges for students who take ACC classes. It also makes it easier to expand dual-credit, career training, and adult education participation because the cost barrier is lower.
+              </div>
+
+              <div style="margin-top:10px;"><strong>Why does the calculator show “Age 65+” and “Disabled” separately?</strong><br>
+                They are separate qualification paths. The additional ACC exemption amount is applied once, even if someone qualifies under both.
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Inputs provided by you
+    const ACC_RATE_PER_100 = 0.1034;     // per $100 taxable value
+    const HOMESTEAD_MIN = 5000;          // $5,000
+    const HOMESTEAD_PCT = 0.01;          // 1%
+    const ADDL_EXEMPT_65_DISABLED = 75000;
+
+    const VALUE_PRESETS = [250000, 350000, 450000, 550000, 650000, 800000];
+
+    const $ = (id) => document.getElementById(id);
+
+    function formatMoney0(n){
+      const v = Number(n);
+      if (!isFinite(v)) return "$0";
+      return v.toLocaleString(undefined, { style:"currency", currency:"USD", maximumFractionDigits:0 });
+    }
+
+    function round1(n){ return Math.round(Number(n) || 0); }
+
+    function buildChips(){
+      const host = $("valueChips");
+      host.innerHTML = "";
+      VALUE_PRESETS.forEach(v => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip";
+        b.dataset.value = String(v);
+        b.textContent = formatMoney0(v);
+        b.addEventListener("click", () => {
+          $("homeValue").value = v;
+          selectChip(v);
+          compute();
+        });
+        host.appendChild(b);
+      });
+      selectChip(Number($("homeValue").value || 0));
+    }
+
+    function selectChip(val){
+      [...$("valueChips").querySelectorAll("button.chip")].forEach(btn => {
+        btn.classList.toggle("selected", Number(btn.dataset.value) === Number(val));
+      });
+    }
+
+    function compute(){
+      const homeValue = Math.max(0, Number($("homeValue").value || 0));
+      selectChip(homeValue);
+
+      const hasHomestead = $("hasHomestead").checked;
+      const has65 = $("has65").checked;
+      const hasDisabled = $("hasDisabled").checked;
+
+      // Homestead: max($5,000, 1% of value)
+      const homesteadEx = hasHomestead ? Math.max(HOMESTEAD_MIN, homeValue * HOMESTEAD_PCT) : 0;
+
+      // 65+/Disabled: applied once if either is true (even if both selected)
+      const addlEx = (has65 || hasDisabled) ? ADDL_EXEMPT_65_DISABLED : 0;
+
+      const taxable = Math.max(0, homeValue - homesteadEx - addlEx);
+
+      // Tax = (taxable / 100) * rate
+      const tax = (taxable / 100) * ACC_RATE_PER_100;
+
+      $("taxableOut").textContent = formatMoney0(round1(taxable));
+      $("taxOut").textContent = formatMoney0(round1(tax));
+      $("rateOut").textContent = `$${ACC_RATE_PER_100.toFixed(4)} / $100`;
+
+      const parts = [];
+      parts.push(`Home value: ${formatMoney0(round1(homeValue))}`);
+      if (hasHomestead) parts.push(`Homestead exemption: −${formatMoney0(round1(homesteadEx))}`);
+      if (addlEx > 0) parts.push(`65+/Disabled exemption: −${formatMoney0(round1(addlEx))}`);
+      parts.push(`Taxable value: ${formatMoney0(round1(taxable))}`);
+      parts.push(`Estimated annual ACC tax: ${formatMoney0(round1(tax))}`);
+      $("breakdownOut").textContent = parts.join(" • ");
+    }
+
+    ["homeValue","hasHomestead","has65","hasDisabled"].forEach(id => {
+      $(id).addEventListener("input", compute);
+      $(id).addEventListener("change", compute);
+    });
+
+    buildChips();
+    compute();
+  </script>
+</body>
+</html>
