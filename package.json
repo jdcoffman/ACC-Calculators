@@ -1,0 +1,13 @@
+{
+  "name": "acc4pf-site",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve",
+    "clean": "rm -rf _site"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
+}

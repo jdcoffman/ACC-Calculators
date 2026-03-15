@@ -1,0 +1,67 @@
+---
+layout: base.njk
+pageTitle: "Volunteer, contact, and stay informed"
+description: "Sign up to volunteer with ACC4PF, share your endorsement, or contact the campaign. Pflugerville residents can help by collecting signatures, hosting events, or spreading the word."
+---
+<section class="section" style="padding-top:var(--space-xl);">
+<div class="container narrow">
+<div class="breadcrumb"><a href="/">Home</a> / Volunteer</div>
+<div class="page-header"><h1>Get involved</h1>
+<p>Every signature, every conversation, and every shared link gets us closer to the ballot. Here is how you can help.</p></div>
+
+<div class="two-col" style="gap:var(--space-xl);align-items:start;">
+<div class="prose">
+<h2>Ways to help</h2>
+<ul>
+<li><strong>Sign the petition</strong> at <a href="https://www.change.org/acc4pf" target="_blank">change.org/acc4pf</a></li>
+<li><strong>Collect signatures</strong> at community events, your neighborhood, or your workplace</li>
+<li><strong>Host a signing event</strong> at your home, church, or business</li>
+<li><strong>Share the calculator</strong> — send <a href="/calculator/">acc4pf.com/calculator</a> to friends and neighbors</li>
+<li><strong>Put up a yard sign</strong> — we will have them available soon</li>
+<li><strong>Share your story</strong> — endorsements from real Pflugerville residents carry weight</li>
+<li><strong>Talk to your neighbors</strong> — especially those outside city limits who may be skeptical</li>
+</ul>
+
+<h2>Contact us</h2>
+<p>Media inquiries, partnership requests, or questions: use the form or email us at [add campaign email].</p>
+</div>
+
+<div>
+<div class="card" style="padding:var(--space-lg);">
+<h3 style="margin-bottom:var(--space-md);">Sign up</h3>
+<form action="https://formspree.io/f/{{ site.formspree_id }}" method="POST">
+<div class="form-group">
+<label for="name">Name</label>
+<input type="text" id="name" name="name" class="form-input" required>
+</div>
+<div class="form-group">
+<label for="email">Email</label>
+<input type="email" id="email" name="email" class="form-input" required>
+</div>
+<div class="form-group">
+<label for="phone">Phone (optional)</label>
+<input type="tel" id="phone" name="phone" class="form-input">
+</div>
+<div class="form-group">
+<label for="interest">I want to</label>
+<select id="interest" name="interest" class="form-input">
+<option value="volunteer">Volunteer to collect signatures</option>
+<option value="host">Host a signing event</option>
+<option value="yardsign">Get a yard sign</option>
+<option value="endorse">Share my endorsement</option>
+<option value="updates">Just get updates</option>
+<option value="other">Something else</option>
+</select>
+</div>
+<div class="form-group">
+<label for="message">Anything else? (optional)</label>
+<textarea id="message" name="message" class="form-input"></textarea>
+</div>
+<input type="hidden" name="_subject" value="ACC4PF volunteer signup">
+<button type="submit" class="btn btn-primary" style="width:100%;">Sign up</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
