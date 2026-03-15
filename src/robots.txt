@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://acc4pf.com/sitemap.xml

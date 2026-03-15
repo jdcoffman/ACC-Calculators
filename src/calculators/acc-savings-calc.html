@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tuition Savings | ACC in Pflugerville</title>
+  <meta name="description" content="See how much Pflugerville residents would save on ACC tuition as in-district students — compared to current out-of-district rates and 4-year universities." />
+
+  <meta property="og:title" content="ACC Tuition Savings Calculator | acc4pf.com" />
+  <meta property="og:description" content="See how much Pflugerville residents would save on ACC tuition as in-district students." />
+  <meta property="og:url" content="https://acc4pf.com/acc-savings-calc.html" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="petition-bar">
+    <span>Help get ACC on the November ballot.</span>
+    <a class="petition-link" href="https://www.change.org/acc4pf" target="_blank" rel="noopener">Sign the petition →</a>
+  </div>
+
+  <div class="wrap">
+    <div class="topnav">
+      <a class="back" href="/">← Back</a>
+    </div>
+
+    <div class="card">
+      <h2>Tuition Savings</h2>
+      <p class="sub">Compare in-district vs. out-of-district ACC costs. Select a scenario, then compare against a 4-year university. All amounts rounded to the nearest $1.</p>
+
+      <label>Choose a scenario</label>
+      <div class="scenarioRow" role="group" aria-label="Scenario picker">
+        <button class="scenarioBtn active" type="button" id="scFew">
+          <p class="t">A few classes</p>
+          <p class="d">6 credits this semester</p>
+        </button>
+        <button class="scenarioBtn" type="button" id="scAssoc">
+          <p class="t">Associate degree</p>
+          <p class="d">2 years full-time (60 credits)</p>
+        </button>
+        <button class="scenarioBtn" type="button" id="scTwoTwo">
+          <p class="t">2+2 bachelor's</p>
+          <p class="d">2 yrs ACC + 2 yrs at a 4-year school</p>
+        </button>
+        <button class="scenarioBtn" type="button" id="scBachAcc">
+          <p class="t">Bachelor's at ACC</p>
+          <p class="d">Full 4-year program (120 credits)</p>
+        </button>
+      </div>
+
+      <!-- ACC cost summary -->
+      <div class="result" aria-live="polite">
+        <div class="resultGrid">
+          <div class="metric">
+            <p class="k">ACC in-district</p>
+            <p class="v" id="accInOut">$0</p>
+          </div>
+          <div class="metric">
+            <p class="k">ACC out-of-district</p>
+            <p class="v" id="accOutOut">$0</p>
+          </div>
+          <div class="metric good">
+            <p class="k">In-district savings</p>
+            <p class="v" id="accSavingsOut">$0</p>
+          </div>
+        </div>
+        <div class="whatIncludes">
+          Includes ACC baseline tuition + standard fees ($82/credit in-district · $283/credit out-of-district).
+          Does not include course/lab fees, housing, or transportation.
+        </div>
+        <div class="pillrow">
+          <div class="pill" id="creditsPill">Credits: —</div>
+        </div>
+      </div>
+
+      <!-- 4-year comparison — visible by default -->
+      <div class="divider"></div>
+      <div class="section-label">Compare to a 4-year university</div>
+
+      <div class="row">
+        <div class="col">
+          <label>School</label>
+          <select id="schoolSelect">
+            <option value="ut">UT Austin</option>
+            <option value="txst">Texas State</option>
+            <option value="utsa">UTSA</option>
+            <option value="tamu">Texas A&amp;M</option>
+          </select>
+        </div>
+        <div class="col">
+          <label id="compareModeLabel">Comparison mode</label>
+          <select id="compareMode">
+            <option value="program" selected>Full program cost</option>
+            <option value="remaining">Remaining cost only (2+2)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="result" style="margin-top:12px;" aria-live="polite" id="compareResult">
+        <div class="resultGrid">
+          <div class="metric">
+            <p class="k" id="schoolFullLabel">4-year school cost (baseline)</p>
+            <p class="v" id="schoolFullOut">$0</p>
+          </div>
+          <div class="metric">
+            <p class="k" id="pathInLabel">Pathway total (in-district)</p>
+            <p class="v" id="pathInOut">$0</p>
+          </div>
+          <div class="metric">
+            <p class="k" id="pathOutLabel">Pathway total (out-of-district)</p>
+            <p class="v" id="pathOutOut">$0</p>
+          </div>
+          <div class="metric good">
+            <p class="k">Your savings (in-district)</p>
+            <p class="v" id="saveInOut">$0</p>
+          </div>
+          <div class="metric good">
+            <p class="k">Your savings (out-of-district)</p>
+            <p class="v" id="saveOutOut">$0</p>
+          </div>
+        </div>
+        <div class="whatIncludes">
+          Comparison uses published annual tuition + fee baselines. Does not include housing, meal plans, transportation, or program-specific fees.
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="resetBtn" type="button">Reset</button>
+        <button class="btn primary" id="copyBtn" type="button">Copy share text</button>
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-label">Assumptions</div>
+      <div class="accordion">
+        <details class="faq">
+          <summary><span>ACC cost baselines</span><span class="caret" aria-hidden="true"></span></summary>
+          <div class="faqBody">
+            <strong>$82/credit (in-district)</strong> and <strong>$283/credit (out-of-district)</strong> — these figures include tuition + standard fees. Individual courses may carry additional lab or course fees not reflected here.
+          </div>
+        </details>
+        <details class="faq">
+          <summary><span>4-year school baselines</span><span class="caret" aria-hidden="true"></span></summary>
+          <div class="faqBody">
+            <strong>UT Austin:</strong> 2 × $5,429/semester (resident, Liberal Arts, 12+ hrs).<br><br>
+            <strong>Texas State:</strong> $12,220/year (15 hrs/semester basis).<br><br>
+            <strong>UTSA:</strong> $11,448/year (15 hrs/term basis).<br><br>
+            <strong>Texas A&amp;M:</strong> 2 × $6,237.35/semester.<br><br>
+            These are resident-rate tuition + fee baselines and do not include housing, meal plans, or transportation.
+          </div>
+        </details>
+        <details class="faq">
+          <summary><span>Scenario definitions</span><span class="caret" aria-hidden="true"></span></summary>
+          <div class="faqBody">
+            <strong>A few classes:</strong> 6 credits at ACC. Comparison to a 4-year school is optional and less apples-to-apples.<br><br>
+            <strong>Associate degree:</strong> 60 credits at ACC (2 years full-time). 4-year comparison uses 2 years of the selected school's annual rate.<br><br>
+            <strong>2+2 pathway:</strong> 60 credits at ACC, then 2 more years at the selected 4-year school. Full baseline comparison assumes 4 years at the 4-year school.<br><br>
+            <strong>Bachelor's at ACC:</strong> 120 credits as a full 4-year program at ACC. 4-year comparison uses 4 years at the selected school.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ACC_IN_PER_CREDIT  = 82;
+    const ACC_OUT_PER_CREDIT = 283;
+
+    const SCHOOL_DEFAULTS = {
+      ut:   { name: "UT Austin",    annual: 2 * 5429 },
+      txst: { name: "Texas State",  annual: 12220 },
+      utsa: { name: "UTSA",         annual: 11448 },
+      tamu: { name: "Texas A&M",    annual: 2 * 6237.35 }
+    };
+
+    const SCENARIOS = {
+      few:     { key: "few",     label: "A few classes",            creditsAcc: 6,   schoolYearsRemaining: 0, programSchoolYears: 1 },
+      assoc:   { key: "assoc",   label: "Associate degree",         creditsAcc: 60,  schoolYearsRemaining: 0, programSchoolYears: 2 },
+      twoTwo:  { key: "twoTwo",  label: "2+2 pathway (bachelor's)", creditsAcc: 60,  schoolYearsRemaining: 2, programSchoolYears: 4 },
+      bachAcc: { key: "bachAcc", label: "Bachelor's at ACC",        creditsAcc: 120, schoolYearsRemaining: 0, programSchoolYears: 4 }
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function fmt(n) {
+      const v = Number(n);
+      if (!isFinite(v)) return "$0";
+      return v.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    }
+    function round1(n) { return Math.round(Number(n) || 0); }
+
+    let currentKey = "few";
+
+    function setScenario(key) {
+      currentKey = key;
+      ["few","assoc","twoTwo","bachAcc"].forEach(k => {
+        $("sc" + k.charAt(0).toUpperCase() + k.slice(1)).classList.toggle("active", k === key);
+      });
+
+      if (key !== "twoTwo") {
+        $("compareMode").value    = "program";
+        $("compareMode").disabled = true;
+        $("compareModeLabel").textContent = "Comparison mode (only for 2+2)";
+      } else {
+        $("compareMode").disabled = false;
+        $("compareModeLabel").textContent = "Comparison mode";
+      }
+      computeAll();
+    }
+
+    function computeAccCosts() {
+      const s       = SCENARIOS[currentKey];
+      const accIn   = s.creditsAcc * ACC_IN_PER_CREDIT;
+      const accOut  = s.creditsAcc * ACC_OUT_PER_CREDIT;
+      const savings = accOut - accIn;
+
+      $("accInOut").textContent      = fmt(round1(accIn));
+      $("accOutOut").textContent     = fmt(round1(accOut));
+      $("accSavingsOut").textContent = fmt(round1(savings));
+      $("creditsPill").textContent   = `Credits in this scenario: ${s.creditsAcc}`;
+      return { accIn, accOut };
+    }
+
+    function computeComparison(accIn, accOut) {
+      const s         = SCENARIOS[currentKey];
+      const schoolKey = $("schoolSelect").value;
+      const school    = SCHOOL_DEFAULTS[schoolKey];
+      const annual    = school.annual;
+      const mode      = $("compareMode").value;
+
+      const schoolFull      = annual * (s.programSchoolYears || 0);
+      const schoolRemaining = annual * (s.schoolYearsRemaining || 0);
+      const pathwayIn       = accIn  + schoolRemaining;
+      const pathwayOut      = accOut + schoolRemaining;
+
+      // Label adjustments
+      const years = s.programSchoolYears;
+      $("schoolFullLabel").textContent =
+        currentKey === "twoTwo" && mode === "remaining"
+          ? `${school.name} remaining cost (2 yrs)`
+          : `${school.name} cost (${years}-yr baseline)`;
+
+      $("pathInLabel").textContent  = currentKey === "twoTwo"
+        ? "2+2 pathway (in-district)" : `ACC total (in-district)`;
+      $("pathOutLabel").textContent = currentKey === "twoTwo"
+        ? "2+2 pathway (out-of-district)" : `ACC total (out-of-district)`;
+
+      let compCost = schoolFull;
+      if (currentKey === "twoTwo" && mode === "remaining") compCost = schoolRemaining;
+
+      const savingsBase = schoolFull;
+      const saveIn  = savingsBase - pathwayIn;
+      const saveOut = savingsBase - pathwayOut;
+
+      $("schoolFullOut").textContent = fmt(round1(compCost));
+      $("pathInOut").textContent     = fmt(round1(pathwayIn));
+      $("pathOutOut").textContent    = fmt(round1(pathwayOut));
+      $("saveInOut").textContent     = fmt(round1(saveIn));
+      $("saveOutOut").textContent    = fmt(round1(saveOut));
+    }
+
+    function computeAll() {
+      const { accIn, accOut } = computeAccCosts();
+      computeComparison(accIn, accOut);
+    }
+
+    function resetAll() {
+      $("schoolSelect").value = "ut";
+      $("compareMode").value  = "program";
+      setScenario("few");
+    }
+
+    function buildShareText() {
+      const s       = SCENARIOS[currentKey];
+      const accIn   = s.creditsAcc * ACC_IN_PER_CREDIT;
+      const accOut  = s.creditsAcc * ACC_OUT_PER_CREDIT;
+      const savings = accOut - accIn;
+
+      const schoolKey = $("schoolSelect").value;
+      const school    = SCHOOL_DEFAULTS[schoolKey];
+      const annual    = school.annual;
+      const schoolFull      = annual * (s.programSchoolYears || 0);
+      const schoolRemaining = annual * (s.schoolYearsRemaining || 0);
+      const pathwayIn  = accIn  + schoolRemaining;
+      const pathwayOut = accOut + schoolRemaining;
+
+      return [
+        "ACC Tuition Savings — acc4pf.com",
+        `Scenario: ${s.label}`,
+        "",
+        `ACC cost (in-district):  ${fmt(round1(accIn))}`,
+        `ACC cost (out-of-district): ${fmt(round1(accOut))}`,
+        `In-district savings: ${fmt(round1(savings))}`,
+        "",
+        `Compared to ${school.name} (${s.programSchoolYears}-yr baseline):`,
+        `  ${school.name}: ${fmt(round1(schoolFull))}`,
+        `  Pathway in-district: ${fmt(round1(pathwayIn))} (saves ${fmt(round1(schoolFull - pathwayIn))})`,
+        `  Pathway out-of-district: ${fmt(round1(pathwayOut))} (saves ${fmt(round1(schoolFull - pathwayOut))})`,
+        "",
+        "Calculate yours: https://acc4pf.com/acc-savings-calc.html"
+      ].join("\n");
+    }
+
+    async function copyShareText() {
+      const text = buildShareText();
+      try {
+        await navigator.clipboard.writeText(text);
+        $("copyBtn").textContent = "Copied!";
+        setTimeout(() => $("copyBtn").textContent = "Copy share text", 1200);
+      } catch {
+        prompt("Copy this text:", text);
+      }
+    }
+
+    $("scFew").addEventListener("click",     () => setScenario("few"));
+    $("scAssoc").addEventListener("click",   () => setScenario("assoc"));
+    $("scTwoTwo").addEventListener("click",  () => setScenario("twoTwo"));
+    $("scBachAcc").addEventListener("click", () => setScenario("bachAcc"));
+
+    $("schoolSelect").addEventListener("change", computeAll);
+    $("compareMode").addEventListener("change",  computeAll);
+
+    $("resetBtn").addEventListener("click", resetAll);
+    $("copyBtn").addEventListener("click",  copyShareText);
+
+    resetAll();
+  </script>
+</body>
+</html>
