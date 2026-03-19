@@ -1,27 +1,36 @@
-/* ACC4PF Brand System — Palette A / DM Sans / Campaign Teal + Navy + Amber */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+/* ACC4PF Brand System — Civic Teal + Warm Plum + Amber / DM Sans + Source Sans 3 */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=Source+Sans+3:wght@400;600&display=swap');
 
 :root {
   /* Primary */
   --teal: #008C82;
-  --teal-dark: #006B60;
+  --teal-dark: #006B63;
   --teal-light: #B2DFDB;
-  --teal-50: #E0F2F1;
+  --teal-50: #E0F2F0;
   --navy: #1B3A5C;
   --navy-dark: #0F2340;
   --amber: #E8A830;
-  --amber-dark: #D4952A;
-  --amber-light: #FFF3D6;
+  --amber-dark: #C48E20;
+  --amber-light: #FFF5E0;
+
+  /* ACC-adjacent purple */
+  --purple: #5C3D8F;
+  --purple-dark: #462D6E;
+  --purple-light: #EDE8F5;
 
   /* Supporting */
-  --warm-white: #FAF8F5;
-  --slate: #5A6B7A;
-  --light-border: #E0DDD8;
+  --warm-white: #F7F5F0;
+  --slate: #4A6580;
+  --light-border: #DDD8D0;
   --card-bg: #FFFFFF;
 
   /* Semantic */
   --success: #27AE60;
-  --error: #C0392B;
+  --error: #C4572A;
+
+  /* Typography */
+  --font-display: 'DM Sans', system-ui, sans-serif;
+  --font-body: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
 
   /* Spacing */
   --space-xs: 4px;
@@ -57,7 +66,7 @@ html {
 }
 
 body {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   background: var(--warm-white);
   color: var(--navy);
   line-height: 1.6;
@@ -69,7 +78,7 @@ a { color: var(--teal); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* ── Typography ── */
-h1, h2, h3, h4 { line-height: 1.2; letter-spacing: -0.3px; font-weight: 700; }
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; letter-spacing: -0.3px; font-weight: 700; }
 h1 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
 h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
 h3 { font-size: clamp(1.1rem, 2.5vw, 1.35rem); font-weight: 500; }
@@ -631,6 +640,7 @@ textarea.form-input { min-height: 100px; resize: vertical; }
 /* ── Utilities ── */
 .text-center { text-align: center; }
 .text-teal { color: var(--teal); }
+.text-purple { color: var(--purple); }
 .text-amber { color: var(--amber); }
 .text-slate { color: var(--slate); }
 .text-white { color: #fff; }
@@ -643,3 +653,55 @@ textarea.form-input { min-height: 100px; resize: vertical; }
 .mb-md { margin-bottom: var(--space-md); }
 .mb-lg { margin-bottom: var(--space-lg); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+/* ── Purple accent system (ACC-adjacent) ── */
+.section-purple {
+  background: var(--purple);
+  color: #fff;
+  padding: var(--space-xl) 0;
+}
+.section-purple h2, .section-purple h3 { color: #fff; }
+.section-purple p { color: rgba(255,255,255,0.8); }
+
+.section-purple-light {
+  background: var(--purple-light);
+  padding: var(--space-xl) 0;
+}
+
+/* FAQ category headers with purple accent */
+.faq-list + h2[style*="color:var(--teal)"],
+h2.faq-category {
+  color: var(--purple) !important;
+  border-bottom: 2px solid var(--purple-light);
+  padding-bottom: var(--space-sm);
+}
+
+/* Purple-accented card border variant */
+.card-purple { border-left: 4px solid var(--purple); }
+.card-purple .card-icon { background: var(--purple-light); color: var(--purple); }
+
+/* Purple stat number variant */
+.stat-number-purple { color: var(--purple-light); }
+
+/* Purple callout variant */
+.callout-purple {
+  background: var(--purple-light);
+  border-left: 4px solid var(--purple);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: var(--space-lg) 0;
+  font-size: 0.95rem;
+}
+.callout-purple strong { color: var(--purple-dark); }
+
+/* Purple badge for data labels */
+.badge-purple {
+  display: inline-block;
+  background: var(--purple-light);
+  color: var(--purple-dark);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.02em;
+}

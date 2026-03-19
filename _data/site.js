@@ -1,7 +1,8 @@
 export default {
-  title: "ACC4PF — ACC Access for Pflugerville",
+  title: "ACC for Pflugerville",
+  shortName: "ACC4PF",
   url: "https://acc4pf.com",
-  description: "Pflugerville residents pay $286/credit hour at ACC. In-district residents pay $85. Help close the gap.",
+  description: "Pflugerville residents pay $286/credit hour at ACC. Every surrounding community pays $85. Calculate your cost and sign the petition.",
   petition_url: "https://www.change.org/acc4pf",
   formspree_id: "xanwpkgd",
   phase: "petition",
@@ -13,5 +14,5 @@ export default {
   acc_in_district: 85,
   acc_out_district: 286,
   acc_ood_fee: 201,
-  disclaimer: "Paid for by ACC4PF. Independent of Austin Community College."
+  disclaimer: "This campaign is independent of Austin Community College. ACC does not and cannot advocate for or against annexation."
 };

@@ -1,22 +1,20 @@
 export default function(eleventyConfig) {
   // Pass through static assets
-  eleventyConfig.addPassthroughCopy("src/css");
-  eleventyConfig.addPassthroughCopy("src/js");
-  eleventyConfig.addPassthroughCopy("src/img");
-  eleventyConfig.addPassthroughCopy("src/calculators");
-  eleventyConfig.addPassthroughCopy("src/CNAME");
-  eleventyConfig.addPassthroughCopy("src/robots.txt");
-  eleventyConfig.addPassthroughCopy("src/_headers");
+  eleventyConfig.addPassthroughCopy("css");
+  eleventyConfig.addPassthroughCopy("js");
+  eleventyConfig.addPassthroughCopy("calculators");
+  eleventyConfig.addPassthroughCopy("images");
+  eleventyConfig.addPassthroughCopy("_headers");
 
   // Ignore calculator HTML from template processing (they are standalone)
-  eleventyConfig.ignores.add("src/calculators/**");
+  eleventyConfig.ignores.add("calculators/**");
 
   // Add a year shortcode for copyright
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
   return {
     dir: {
-      input: "src",
+      input: ".",
       output: "_site",
       includes: "_includes",
       data: "_data"
